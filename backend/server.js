@@ -8,19 +8,23 @@ const mysql = require("mysql2/promise");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Use environment port for Render
 
 // ------------------- MIDDLEWARE -------------------
 app.use(cors());             // Enable cross-origin requests
 app.use(bodyParser.json());  // Parse JSON request bodies
 
+// Serve static images from frontend/Featured
+app.use("/Featured", express.static(path.join(__dirname, "../frontend/Featured")));
+
 // ------------------- DATABASE CONFIG -------------------
 const dbConfig = {
-  host: "localhost",
-  user: "root",
-  password: "1613751326",
+  host: "localhost",        // Change to your Render DB host if deployed
+  user: "root",             // Change as needed
+  password: "1613751326",   // Change as needed
   database: "PureWaveDB",
   waitForConnections: true,
   connectionLimit: 10,
@@ -121,15 +125,22 @@ app.post("/login", async (req, res) => {
 // ------------------- PRODUCTS API -------------------
 app.get("/api/products", async (req, res) => {
   try {
-    // Fetch product info and image
     const [rows] = await pool.execute(`
-      SELECT p.product_id, p.name, p.price, i.image_url AS image
+      SELECT p.product_id, p.name, p.price, i.image_url
       FROM products p
       LEFT JOIN images i ON p.product_id = i.product_id
       ORDER BY p.product_id ASC
     `);
 
-    res.json(rows); // Send JSON array of products
+    // Prepend /Featured/ if images are stored there
+    const products = rows.map(row => ({
+      product_id: row.product_id,
+      name: row.name,
+      price: row.price,
+      image: row.image_url ? `/Featured/${row.image_url}` : null
+    }));
+
+    res.json(products);
 
   } catch (err) {
     console.error("Failed to fetch products:", err);
