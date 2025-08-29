@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PureWave</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* Product card styles */
+.product-card {
+  opacity: 0;
+  transform: scale(0.95) translateY(30px);
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+}
+
+.product-card img {
+  max-width: 100%;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  object-fit: cover;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+
+.from-left { transform: translateX(-40px) scale(0.95); }
+.from-right { transform: translateX(40px) scale(0.95); }
+.from-bottom { transform: translateY(40px) scale(0.95); }
+.from-top { transform: translateY(-40px) scale(0.95); }
+
+.show {
+  opacity: 1;
+  transform: scale(1) translate(0,0);
+}
+
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 28px;
+  margin-top: 40px;
+}
+
+.product-card h3 { font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; color: #222; }
+.product-card span { color: #666; font-size: 0.95rem; }
+
+@media (max-width: 900px) { .product-card { width: 47%; } }
+@media (max-width: 600px) { .product-card { width: 100%; } }
+
+/* Navbar */
+.navbar { width: 100%; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: sticky; top:0; z-index:1000; }
+.nav-container { max-width:1200px; margin:auto; padding:20px; display:flex; justify-content:space-between; align-items:center; }
+.logo { font-size:1.8rem; font-weight:bold; color:#222; text-decoration:none; }
+.nav-links { display:flex; gap:24px; }
+.nav-links a { text-decoration:none; color:#222; font-weight:600; transition:color 0.3s ease; }
+.nav-links a:hover { color:#ff4500; }
+
+/* Sidebar */
+#sidebar { position:fixed; top:0; left:-280px; width:280px; height:100%; background:#f1f2f6; box-shadow:3px 0 12px rgba(0,0,0,0.1); padding:20px; transition:left 0.3s ease; z-index:1200; }
+#sidebar ul { list-style:none; padding:0; }
+#sidebar ul li { margin:16px 0; }
+#sidebar ul li a { text-decoration:none; color:#222; font-weight:600; }
+</style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <div style="display:flex; align-items:center; gap:16px;">
+      <button id="sidebarToggle" style="background:none;border:none;font-size:1.8rem;cursor:pointer;">&#9776;</button>
+      <a href="index.html" class="logo">PureWave</a>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="productsTest.html">Shop</a>
+      <a href="cart.html">Cart</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </div>
+</header>
+
+<section class="products">
+  <div class="container" style="max-width:1200px; margin:auto; padding:40px 20px;">
+    <h2 style="font-size:2rem;font-weight:900;margin-bottom:30px;border-left:6px solid #222;padding-left:16px;">All Products</h2>
+    <div id="product-grid" class="product-grid"></div>
+  </div>
+</section>
+
+<aside id="sidebar">
+  <h2>Menu</h2>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="productTshirt1.html">Shop</a></li>
+    <li><a href="login.html">Login</a></li>
+    <li><a href="cart.html">Cart</a></li>
+  </ul>
+</aside>
+
+<script>
+// Sidebar toggle
+const sidebarToggle = document.getElementById('sidebarToggle');
+const sidebar = document.getElementById('sidebar');
+sidebarToggle.addEventListener('click', () => {
+  sidebar.style.left = sidebar.style.left === '0px' ? '-280px' : '0px';
+});
+document.addEventListener('click', e => {
+  if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) sidebar.style.left = '-280px';
+});
+
+// Load products with animation and prevent duplicates
+async function loadProducts() {
+  try {
+    const response = await fetch("http://localhost:3000/api/products");
+    const products = await response.json();
+
+    const productGrid = document.getElementById("product-grid");
+    productGrid.innerHTML = ""; // clear old products
+
+    const addedKeys = new Set();
+    let displayIndex = 0; // counts only products actually added
+
+    products.forEach((product) => {
+      const key = `${product.name}-${product.price}-${product.image}`;
+      if (addedKeys.has(key)) return; // skip duplicate
+      addedKeys.add(key);
+
+      const card = document.createElement("div");
+      card.classList.add("product-card");
+
+      // Use displayIndex for animation class
+      if (displayIndex % 3 === 0) card.classList.add("from-left");
+      else if (displayIndex % 3 === 1) card.classList.add("from-bottom");
+      else card.classList.add("from-right");
+
+      card.innerHTML = `
+        <a href="viewProduct.html?img=${product.image}" style="display:block;">
+          <img src="${product.image}" alt="${product.name}" />
+        </a>
+        <h3>${product.name}</h3>
+        <span>৳ ${product.price}</span>
+      `;
+      productGrid.appendChild(card);
+      displayIndex++; // increment only for actually added product
+    });
+
+    // IntersectionObserver for scroll animation
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        } else {
+          entry.target.classList.remove("show");
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll(".product-card").forEach(card => observer.observe(card));
+
+  } catch (err) {
+    console.error("Failed to load products:", err);
+  }
+}
+
+// Load products once
+loadProducts();
+</script>
+
+</body>
+</html>

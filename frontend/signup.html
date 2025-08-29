@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - PureWave</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Signup form container */
+    .signup-container {
+      background: #fff;
+      padding: 38px 32px 36px 32px;
+      border-radius: 22px;
+      box-shadow: 0 8px 32px rgba(34,34,34,0.10);
+      border: 1.5px solid #e3e6ee;
+      max-width: 400px;
+      width: 90%;
+      margin: 60px auto;
+      text-align: center;
+    }
+    .signup-container h2 {
+      margin-bottom: 24px;
+      font-weight: 800;
+      font-size: 2rem;
+      background: linear-gradient(90deg, #222 60%, #c3cfe2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+    }
+    .signup-container form {
+      display: flex;
+      flex-direction: column;
+    }
+    .signup-container label {
+      text-align: left;
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 1rem;
+      color: #2f3542;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    }
+    .signup-container input[type="text"],
+    .signup-container input[type="email"],
+    .signup-container input[type="password"],
+    .signup-container input[type="tel"] {
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      border-radius: 18px;
+      border: 1.5px solid #c3cfe2;
+      font-size: 1.1rem;
+      transition: border-color 0.3s ease;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .signup-container input:focus {
+      border-color: #222;
+      outline: none;
+      box-shadow: 0 0 10px #c3cfe2;
+    }
+    .signup-container button {
+      padding: 14px 38px;
+      background: #222;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 24px rgba(34,34,34,0.08);
+      transition: background 0.3s ease;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .signup-container button:hover {
+      background: #444;
+    }
+    .login-link {
+      margin-top: 18px;
+      font-size: 0.95rem;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    }
+    .login-link a {
+      color: #222;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .login-link a:hover {
+      color: #c3cfe2;
+      text-decoration: underline;
+    }
+    .logo {
+      color: #222;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+             display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
+
+  <div class="main-content" style="flex: 1;">
+    <!-- Header -->
+    <header class="navbar" style="width: 100%; padding: 20px 40px; background: #fff;">
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button id="sidebarToggle" style="background: none; border: none; cursor: pointer; font-size: 1.8rem;">
+            &#9776;
+          </button>
+          <a href="index.html" style="text-decoration: none;">
+            <h1 class="logo" style="font-size: 1.8rem; font-weight: bold; margin: 0;">PureWave</h1>
+          </a>
+        </div>
+        <nav class="nav-links" style="display: flex; gap: 24px;">
+          <a href="index.html" style="text-decoration: none; color: #222; font-weight: 600;">Home</a>
+          <a href="shopNow.html" style="text-decoration: none; color: #222; font-weight: 600;">Shop</a>
+          <a href="login.html" style="text-decoration: none; color: #222; font-weight: 600;">Login</a>
+          <a href="cart.html" style="text-decoration: none; color: #222; font-weight: 600;">Cart</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Signup Form -->
+    <div class="signup-container">
+      <h2>Create Your PureWave Account</h2>
+      <form action="#" method="POST">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" placeholder="John Doe" required />
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="01XXXXXXXXX" required pattern="[0-9]{11}" />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Create a password" required />
+
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm password" required />
+
+        <button type="submit">Sign Up</button>
+      </form>
+
+      <div class="login-link">
+        Already have an account? <a href="login.html">Login here</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" style="background: #222; color: #fff; padding: 40px 0; text-align: center;">
+    <div class="container">
+      <p style="margin: 0; font-size: 0.9rem;">&copy; 2025 PureWeave. All rights reserved.</p>
+      <div style="margin-top: 12px;">
+        <a href="#" style="color: #fff; text-decoration: none; margin: 0 10px;">Palestine will be free | فلسطين سوف تكون حرة</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const signupForm = document.querySelector(".signup-container form");
+
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const fullname = document.getElementById("fullname").value;
+      const email = document.getElementById("email").value;
+      const phone = "+880" + document.getElementById("phone").value; // prepend +880
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+
+      if(password !== confirmPassword){
+        alert("Passwords do not match!");
+        return;
+      }
+
+      try {
+        const res = await fetch("http://localhost:3000/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fullname, email, phone, password })
+        });
+
+        const data = await res.json();
+        
+        alert(data.message);
+
+        if(data.success){
+          signupForm.reset();
+          setTimeout(() => { window.location.href = "login.html"; }, 1000);
+        }
+
+      } catch(err) {
+        console.error("Signup error:", err);
+        alert("Something went wrong. Please try again.");
+      }
+    });
+  </script>
+
+</body>
+</html>

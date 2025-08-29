@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - PureWave</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Navbar */
+    .navbar {
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      padding: 16px 40px;
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #222;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #222;
+      font-weight: 600;
+    }
+
+    /* Login container */
+    .login-container {
+      background: #fff;
+      padding: 38px 32px;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(34,34,34,0.10);
+      border: 1.5px solid #e3e6ee;
+      width: 360px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .login-container:hover {
+      transform: translateY(-4px);
+    }
+    .login-container h2 {
+      margin-bottom: 24px;
+      font-weight: 800;
+      font-size: 2rem;
+      background: linear-gradient(90deg, #222 60%, #c3cfe2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    label {
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    input[type="email"], input[type="password"] {
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1.5px solid #c3cfe2;
+      font-size: 1rem;
+    }
+    input:focus {
+      border-color: #222;
+      outline: none;
+      box-shadow: 0 0 8px #c3cfe2;
+    }
+    button.login-btn {
+      padding: 14px;
+      background: #222;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button.login-btn:hover { background: #444; }
+
+    .info-message {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: #333;
+    }
+    .forgot-password, .signup-link {
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+    .forgot-password a, .signup-link a {
+      color: #222;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .forgot-password a:hover, .signup-link a:hover { color: #ff4500; }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">PureWave</a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shopNow.html">Shop</a>
+        <a href="login.html">Login</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Login form -->
+  <div class="login-container">
+    <h2>Login to PureWave</h2>
+    <form id="loginForm">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+      
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Your password" required>
+      
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <div class="info-message" id="lastLoginMessage"></div>
+
+    <div class="forgot-password">
+      <a href="#">Forgot your password?</a>
+    </div>
+    <div class="signup-link">
+      Don’t have an account? <a href="signup.html">Sign Up</a>
+    </div>
+  </div>
+
+  <script>
+    const lastLoginMessage = document.getElementById("lastLoginMessage");
+
+    document.getElementById("loginForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const res = await fetch("http://localhost:3000/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          // Store user data
+          localStorage.setItem("user", JSON.stringify(data.user));
+
+          // Show last login info
+          if (data.lastLogin) {
+            lastLoginMessage.textContent = `Your last login was on: ${new Date(data.lastLogin).toLocaleString()}`;
+          } else {
+            lastLoginMessage.textContent = "This is your first login. Welcome!";
+          }
+
+          // Redirect after short delay to allow user to see message
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 1500);
+
+        } else {
+          lastLoginMessage.textContent = "❌ Login failed. " + (data.message || "Check your credentials or sign up if you don’t have an account.");
+        }
+
+      } catch (err) {
+        console.error(err);
+        lastLoginMessage.textContent = "⚠️ Something went wrong. Please try again later.";
+      }
+    });
+  </script>
+
+</body>
+</html>

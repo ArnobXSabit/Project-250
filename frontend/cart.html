@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shopping Cart - PureWave</title>
+  <style>
+    /* Basic reset */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: #f7f8fa;
+      color: #222;
+    }
+
+    header.navbar {
+      width: 100%;
+      padding: 20px 40px;
+      background: #fff;
+      position: relative;
+      z-index: 1100;
+      box-sizing: border-box;
+    }
+    header.navbar .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #222;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      text-decoration: none;
+    }
+    header.navbar .logo:hover { color: orange; }
+
+    aside#sidebar {
+      position: fixed;
+      top: 0;
+      left: -280px;
+      width: 280px;
+      height: 100vh;
+      background: #f1f2f6;
+      box-shadow: 3px 0 12px rgba(0,0,0,0.1);
+      padding: 20px;
+      overflow-y: auto;
+      transition: left 0.3s ease;
+      z-index: 1200;
+      box-sizing: border-box;
+    }
+
+    main.container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-weight: 900;
+      font-size: 2.4rem;
+      margin-bottom: 24px;
+      letter-spacing: 1.5px;
+      border-left: 6px solid #222;
+      padding-left: 18px;
+    }
+
+    table.cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+    }
+
+    table.cart-table thead { background: #222; color: #fff; }
+
+    table.cart-table th, table.cart-table td {
+      padding: 16px 20px;
+      text-align: left;
+      vertical-align: middle;
+      font-size: 1rem;
+    }
+
+    table.cart-table th {
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .product-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .product-info img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+    .product-info .product-name { font-weight: 700; color: #222; }
+
+    input.quantity-input {
+      width: 60px;
+      padding: 6px 10px;
+      font-size: 1rem;
+      border: 1.5px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+      transition: border-color 0.3s ease;
+    }
+    input.quantity-input:hover { border-color: #222; }
+
+    button.remove-btn {
+      background: transparent;
+      border: none;
+      color: #c0392b;
+      cursor: pointer;
+      font-size: 1.4rem;
+      font-weight: 700;
+      transition: color 0.3s ease;
+    }
+    button.remove-btn:hover { color: #e74c3c; }
+
+    .total-row td {
+      font-weight: 800;
+      font-size: 1.25rem;
+      border-top: 2px solid #222;
+      padding-top: 24px;
+      text-align: right;
+    }
+    .total-row td:first-child { text-align: left; }
+
+    .checkout-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #222, #3a91f5);
+      color: #fff;
+      padding: 16px 48px;
+      border-radius: 40px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 8px 28px rgba(58, 145, 245, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      cursor: pointer;
+      width: fit-content;
+    }
+    .checkout-btn:hover, .checkout-btn:focus {
+      background: linear-gradient(135deg, #3a91f5, #222);
+      box-shadow: 0 12px 36px rgba(58, 145, 245, 0.6);
+      transform: scale(1.05);
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <div style="display:flex; align-items:center; gap:16px;">
+      <button id="sidebarToggle" style="background:none; border:none; cursor:pointer; font-size:1.8rem;">&#9776;</button>
+<a href="index.html">
+  <h1 class="logo">PureWave</h1>
+</a>
+    </div>
+    <nav style="display:flex; gap:24px;">
+      <a href="index.html" style="text-decoration:none; color:#222; font-weight:600;">Home</a>
+      <a href="shopNow.html" style="text-decoration:none; color:#222; font-weight:600;">Shop</a>
+      <a href="login.html" style="text-decoration:none; color:#222; font-weight:600;">Login</a>
+    </nav>
+  </div>
+</header>
+
+<aside id="sidebar">
+  <h2>Categories</h2>
+  <nav>
+    <ul style="list-style:none; padding:0;">
+      <li><a href="#">T-Shirts</a></li>
+      <li><a href="#">Hoodies</a></li>
+      <li><a href="#">Accessories</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<main class="container">
+  <h1>Your Shopping Cart</h1>
+
+  <table class="cart-table" aria-label="Shopping cart items">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody id="cart-items"></tbody>
+    <tfoot>
+      <tr class="total-row">
+        <td colspan="3">Total</td>
+        <td id="cart-total">৳ 0.00</td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
+<h1></h1>
+  <a href="checkOut.html" class="checkout-btn">Proceed to Checkout</a>
+</main>
+
+<script>
+  // Sidebar toggle
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const sidebar = document.getElementById('sidebar');
+  sidebarToggle.addEventListener('click', () => {
+    sidebar.style.left = sidebar.style.left === '0px' ? '-280px' : '0px';
+  });
+  document.addEventListener('click', e => {
+    if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) sidebar.style.left = '-280px';
+  });
+
+  // Cart with localStorage
+  function getCart() { return JSON.parse(localStorage.getItem('cart')) || []; }
+  function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); }
+
+  function addItemFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    const item = {
+      name: params.get('name'),
+      price: parseFloat(params.get('price')),
+      size: params.get('size'),
+      quantity: parseInt(params.get('quantity')),
+      image: params.get('image')
+    };
+    if (!item.name || !item.price) return;
+
+    let cart = getCart();
+    const existing = cart.find(i => i.name === item.name && i.size === item.size);
+    if (existing) existing.quantity += item.quantity;
+    else cart.push(item);
+    saveCart(cart);
+    renderCart();
+  }
+
+  function renderCart() {
+    const tbody = document.getElementById('cart-items');
+    tbody.innerHTML = '';
+    let total = 0;
+    const cart = getCart();
+    cart.forEach((item, index) => {
+      const subtotal = item.price * item.quantity;
+      total += subtotal;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <div class="product-info">
+            <img src="${decodeURIComponent(item.image)}" alt="${item.name}">
+            <div class="product-name">${item.name} (${item.size})</div>
+          </div>
+        </td>
+        <td>৳ ${item.price.toFixed(2)}</td>
+        <td><input type="number" class="quantity-input" min="1" value="${item.quantity}" data-index="${index}"></td>
+        <td>৳ ${subtotal.toFixed(2)}</td>
+        <td><button class="remove-btn" data-index="${index}">&times;</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+    document.getElementById('cart-total').textContent = `৳ ${total.toFixed(2)}`;
+  }
+
+  // Quantity change
+  document.getElementById('cart-items').addEventListener('input', e => {
+    if (e.target.classList.contains('quantity-input')) {
+      const index = parseInt(e.target.dataset.index);
+      let cart = getCart();
+      cart[index].quantity = Math.max(1, parseInt(e.target.value));
+      saveCart(cart);
+      renderCart();
+    }
+  });
+
+  // Remove item
+  document.getElementById('cart-items').addEventListener('click', e => {
+    if (e.target.classList.contains('remove-btn')) {
+      const index = parseInt(e.target.dataset.index);
+      let cart = getCart();
+      cart.splice(index, 1);
+      saveCart(cart);
+      renderCart();
+    }
+  });
+
+  // Load cart on page load
+  addItemFromQuery();
+  renderCart();
+</script>
+
+</body>
+</html>

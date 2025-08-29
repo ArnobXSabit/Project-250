@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PureWave</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ...existing styles... */
+    .product-card {
+      background: #f1f2f6;
+      border-radius: 18px;
+      box-shadow: 0 2px 12px rgba(34,34,34,0.07);
+      padding: 24px 12px 12px 12px;
+      text-align: center;
+      position: relative;
+      border: 1.5px solid #e3e6ee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.38s cubic-bezier(.33,1,.68,1), transform 0.38s cubic-bezier(.33,1,.68,1), background 0.38s cubic-bezier(.33,1,.68,1), border-color 0.38s cubic-bezier(.33,1,.68,1);
+      will-change: transform, box-shadow, background, border-color;
+    }
+    .product-card img {
+      transition: transform 0.38s cubic-bezier(.33,1,.68,1), box-shadow 0.38s cubic-bezier(.33,1,.68,1);
+      will-change: transform, box-shadow;
+    }
+    .product-card:hover {
+      background: #e3e6ee;
+      box-shadow: 0 12px 36px rgba(34,34,34,0.16), 0 2px 8px rgba(34,34,34,0.10);
+      transform: translateY(-10px) scale(1.03);
+      border-color: #c3cfe2;
+      z-index: 2;
+    }
+    .product-card:hover img {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 12px 32px 0 rgba(34,34,34,0.13), 0 1.5px 6px 0 rgba(34,34,34,0.06);
+      z-index: 3;
+    }
+    .logo:hover {
+    color: orange;
+    transition: color 0.3s ease;
+  }
+    .category-banner {
+  margin: 64px 0 36px;
+  text-align: center;
+  position: relative;
+  padding: 16px 0;
+  background: linear-gradient(to right, #f1f2f6, #dfe4ea);
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.category-banner::before,
+.category-banner::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #a4b0be);
+  transform: translateY(-50%);
+}
+
+.category-banner::before {
+  left: 24px;
+}
+
+.category-banner::after {
+  right: 24px;
+}
+
+.category-banner h3 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: #2f3542;
+  letter-spacing: 2px;
+}
+  @keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.category-banner {
+  animation: fadeUp 0.6s ease-out both;
+}
+.logo {
+  color: #222;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.logo:hover {
+  color: orange;
+}
+.btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #222, #3a91f5);
+  color: #fff;
+  padding: 16px 48px;
+  border-radius: 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 8px 28px rgba(58, 145, 245, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.btn:hover,
+.btn:focus {
+  background: linear-gradient(135deg, #3a91f5, #222);
+  box-shadow: 0 12px 36px rgba(58, 145, 245, 0.6);
+  transform: scale(1.05);
+  outline: none;
+}
+
+  </style>
+  
+</head>
+<body>
+  
+<header class="navbar" style="width: 100%; padding: 20px 40px; background: #fff;">
+  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    
+    <!-- Left side: Hamburger + Logo -->
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <!-- Hamburger button -->
+      <button id="sidebarToggle" style="background: none; border: none; cursor: pointer; font-size: 1.8rem;">
+        &#9776; <!-- Unicode hamburger icon -->
+      </button>
+      
+      <!-- Logo -->
+      <a href="index.html" style="text-decoration: none;">
+  <h1 class="logo" style="font-size: 1.8rem; font-weight: bold; margin: 0;">PureWave</h1>
+</a>
+
+    </div>
+    
+    <!-- Right side: Navigation links -->
+    <nav class="nav-links" style="display: flex; gap: 24px;">
+    <a href="index.html" style="text-decoration: none; color: #222; font-weight: 600;">Home</a>
+    <a href="shopNow.html" style="text-decoration: none; color: #222; font-weight: 600;">Shop</a>
+    <a href="cart.html" style="text-decoration: none; color: #222; font-weight: 600;">Cart</a>
+    <span id="authLinks"></span> <!-- placeholder for Login/Profile -->
+</nav>
+
+  </div>
+
+  <!-- Search bar stays centered -->
+  <div class="search-bar" style="display: flex; justify-content: center; align-items: center; margin-top: 24px;">
+    <input type="text" placeholder="Search products..." style="padding: 10px 18px; border: 1px solid #ccc; border-radius: 24px 0 0 24px; outline: none; font-size: 1rem; width: 260px;">
+    <button style="padding: 10px 22px; border: none; background: #222; color: #fff; border-radius: 0 24px 24px 0; font-size: 1rem; cursor: pointer; font-weight: 600; transition: background 0.2s;">Search</button>
+  </div>
+</header>
+
+    <section class="hero" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 60px 0 80px 0; text-align: center; position: relative;">
+      <div class="hero-content" style="max-width: 600px; margin: 0 auto; color: #222; background: #fff; border-radius: 22px; box-shadow: 0 8px 32px rgba(34,34,34,0.10); border: 1.5px solid #e3e6ee; padding: 38px 32px 36px 32px; position: relative;">
+        <h2 style="font-size: 2.8rem; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; background: linear-gradient(90deg, #222 60%, #c3cfe2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">Premium Clothing</h2>
+        <div style="width: 60px; height: 4px; background: linear-gradient(90deg, #222 60%, #c3cfe2 100%); border-radius: 2px; margin: 0 auto 18px auto;"></div>
+        <p style="font-size: 1.25rem; margin-bottom: 32px; color: #444;">Shop the latest designs in comfort and style.</p>
+        <a href="shopNow.html" class="btn" role="btn">Shop Now</a>
+      </div>
+      <svg style="position: absolute; bottom: -1px; left: 0; width: 100%; height: 60px;" viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M0,0 C480,60 960,0 1440,60 L1440,60 L0,60 Z"></path></svg>
+    </section>
+
+  <section class="products">
+    <div class="container">
+      <h2 style="font-size:2.2rem; font-weight:900; color:#181818; letter-spacing:1.5px; margin-bottom:48px; border-left: 6px solid #222; padding-left: 18px; background: none;">Featured Products</h2>
+      
+      <!-- T-Shirts Section -->
+      <div class="category-banner">
+        <h3>T-Shirts</h3>
+      </div>
+      <div class="product-grid" style="gap:40px;">
+        <div class="product-card">
+          <a href="productsTest.html?page=1" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/1.jpg" alt="Product 1" />
+            <h3>Designer Round Neck</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Casual</span>
+          </a>
+      </div>
+          <div class="product-card">
+            <a href="productsTest.html?page=2" style="text-decoration: none; color: inherit;">
+              <img src="../Featured/2.jpg" alt="Product 2" />
+              <h3>Premium Polo</h3>
+              <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Premium</span>
+            </a>
+      </div>
+      <div class="product-card">
+        <a href="productsTest.html?page=3" style="text-decoration: none; color: inherit;">
+          <img src="../Featured/3.jpg" alt="Product 3" />
+          <h3>Cut And Stitch</h3>
+          <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Cotton</span>
+        </a>
+      </div>
+
+      </div>
+      
+      <!-- Winter Clothing Section -->
+      <div class="category-banner">
+        <h3>Winter Clothing</h3>
+      </div>
+      <div class="product-grid" style="gap:40px;">
+        <div class="product-card">
+          <a href="productsTest.html?page=4" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/4.jpg" alt="Product 4" />
+            <h3>Jacket</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Comfort</span>
+          </a>
+        </div>
+        <div class="product-card">
+          <a href="productsTest.html?page=5" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/5.jpg" alt="Product 5" />
+            <h3>Hoodie</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Classic</span>
+          </a>
+        </div>
+        <div class="product-card">
+          <a href="productsTest.html?page=6" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/6.jpg" alt="Product 6" />
+            <h3>Full Sleeve T-Shirt</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Fit</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Pants Section -->
+      <div class="category-banner">
+        <h3>Pants</h3>
+      </div>
+      <div class="product-grid" style="gap:40px;">
+        <div class="product-card">
+          <a href="productsTest.html?page=7" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/7.jpg" alt="Product 7" />
+            <h3>Chino Pants</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Slim Fit</span>
+          </a>
+        </div>
+        <div class="product-card">
+          <a href="productsTest.html?page=8" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/8.jpg" alt="Product 8" />
+            <h3>Jeans</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Denim</span>
+          </a>
+        </div>
+        <div class="product-card">
+          <a href="productsTest.html?page=9" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/9.jpg" alt="Product 9" />
+            <h3>Cargo Pants</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Premium</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Trouser Section -->
+      <div class="category-banner">
+        <h3>Trouser</h3>
+      </div>
+      <div class="product-grid" style="gap:40px;">
+        <div class="product-card">
+          <a href="productsTest.html?page=10" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/10.jpg" alt="Product 10" />
+            <h3>Comfy Trouser</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Comfort</span>
+          </a>
+        </div>
+        <div class="product-card">
+          <a href="productsTest.html?page=11" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/11.jpg" alt="Product 11" />
+            <h3>Sports Trouser</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Sports</span>
+          </a>
+        </div>
+        <div class="product-card">
+          <a href="productsTest.html?page=12" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/12.jpg" alt="Product 12" />
+            <h3>Joggers</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Slim Fit</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Others Section -->
+      <div class="category-banner">
+        <h3>Others</h3>
+      </div>
+      <div class="product-grid" style="gap:40px;">
+        <div class="product-card">
+          <a href="productsTest.html?page=13" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/13.jpg" alt="Product 13" />
+            <h3>Socks</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Comfy</span>
+          </a>
+        </div>
+        <div class="product-card">
+          <a href="productsTest.html?page=14" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/14.jpg" alt="Product 14" />
+            <h3>Mask</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Premium Face Layer</span>
+          </a>
+        </div>
+        <div class="product-card">
+          <a href="productsTest.html?page=15" style="text-decoration: none; color: inherit;">
+            <img src="../Featured/15.jpg" alt="Product 15" />
+            <h3>Belts</h3>
+            <span style="display:block; color:#888; font-size:1rem; margin-top:4px;">Classic</span>
+          </a>
+        </div>
+      </div>
+
+            </div>
+          </div>
+        </section>
+  <footer class="footer" style="background: #222; color: #fff; padding: 40px 0; text-align: center;">
+          <div class="container">
+            <p style="margin: 0; font-size: 0.9rem;">&copy; 2025 PureWeave. All rights reserved.</p>
+            <div style="margin-top: 12px;">
+              <a href="#" style="color: #fff; text-decoration: none; margin: 0 10px;">Palestine will be free | فلسطين سوف تكون حرة</a>
+              <!-- <a href="#" style="color: #fff; text-decoration: none; margin: 0 10px;">Arnob-Sabit</a>
+              <a href="#" style="color: #fff; text-decoration: none; margin: 0 10px;">Shakil Ahmed</a> -->
+            </div>
+    </div>
+  </footer>
+  <!-- sidebar added -->
+  <script src="sidebar.js"></script>
+  <aside id="sidebar" style="
+  position: fixed;
+  top: 0;
+  left: -280px; 
+  width: 280px;
+  height: 100%;
+  background: #f1f2f6;
+  box-shadow: 3px 0 12px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: left 0.3s ease;
+  z-index: 1200;
+">
+  <h2>Menu</h2>
+  <ul style="list-style:none; padding:0;">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="productTshirt1.html">Shop</a></li>
+    <li><a href="cart.html">Cart</a></li>
+    <li><a href="login.html">Login</a></li>
+  </ul>
+</aside>
+
+<script>
+  const authLinks = document.getElementById("authLinks");
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // Default profile image
+  const defaultProfile = "pp.jpg";
+
+  if (user && user.name) {
+    // User is logged in → show profile icon with fallback
+    const profileImage = user.image ? user.image : defaultProfile;
+    authLinks.innerHTML = `
+      <a href="userprofile.html" style="text-decoration: none; color: #222; font-weight: 600;">
+        <img src="${profileImage}" alt="Profile" style="width:32px; height:32px; border-radius:50%; vertical-align:middle;">
+        ${user.name.split(" ")[0]}
+      </a>
+    `;
+  } else {
+    // User not logged in → show login button
+    authLinks.innerHTML = `
+      <a href="login.html" style="text-decoration: none; color: #222; font-weight: 600;">Login</a>
+    `;
+  }
+</script>
+
+</body>
+</html>

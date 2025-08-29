@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Premium T-Shirt Defender - PureWave</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: #f7f8fa;
+      color: #222;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .breadcrumbs {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 18px;
+    }
+    .breadcrumbs a:hover {
+      text-decoration: underline;
+    }
+
+    .product-detail {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      padding: 32px;
+      margin-top: 20px;
+    }
+    .product-images {
+      flex: 1 1 400px;
+      min-width: 300px;
+    }
+    .product-images img {
+      width: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .product-info {
+      flex: 1 1 400px;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      line-height: 1.1;
+    }
+    .product-category {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+    .price {
+      font-size: 1.8rem;
+      color: #222;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    .description {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #444;
+      margin-bottom: 28px;
+    }
+    .options {
+      margin-bottom: 30px;
+    }
+    .option-label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+    }
+    select, input[type="number"] {
+      padding: 8px 12px;
+      font-size: 1rem;
+      border: 1.8px solid #ccc;
+      border-radius: 8px;
+      width: 140px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+    select:hover, input[type="number"]:hover {
+      border-color: #222;
+    }
+    .quantity-input {
+      width: 80px;
+    }
+
+    .logo {
+      color: #222;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .logo:hover {
+      color: orange;
+    }
+
+    .btn-add-cart {
+      display: inline-block;
+      background: linear-gradient(135deg, #222, #3a91f5);
+      color: #fff;
+      padding: 14px 36px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 40px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(58, 145, 245, 0.4);
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      width: fit-content;
+      text-align: center;
+    }
+
+    .btn-add-cart:hover,
+    .btn-add-cart:focus {
+      background: linear-gradient(135deg, #3a91f5, #222);
+      transform: scale(1.05);
+      box-shadow: 0 12px 32px rgba(58, 145, 245, 0.6);
+      outline: none;
+    }
+
+    @media (max-width: 768px) {
+      .product-detail {
+        flex-direction: column;
+      }
+      .product-images, .product-info {
+        flex: 1 1 100%;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 🔹 Navbar -->
+<header class="navbar" style="width: 100%; padding: 20px 40px; background: #fff;">
+  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    
+    <!-- Left side: Hamburger + Logo -->
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <!-- Hamburger button -->
+      <button id="sidebarToggle" style="background: none; border: none; cursor: pointer; font-size: 1.8rem;">
+        &#9776; <!-- Unicode hamburger icon -->
+      </button>
+      
+      <!-- Logo -->
+      <a href="index.html" style="text-decoration: none;">
+  <h1 class="logo" style="font-size: 1.8rem; font-weight: bold; margin: 0;">PureWave</h1>
+</a>
+
+    </div>
+    
+    <!-- Right side: Navigation links -->
+    <nav class="nav-links" style="display: flex; gap: 24px;">
+      <a href="index.html" style="text-decoration: none; color: #222; font-weight: 600;">Home</a>
+      <a href="shopNow.html" style="text-decoration: none; color: #222; font-weight: 600;">Shop</a>
+      <a href="login.html" style="text-decoration: none; color: #222; font-weight: 600;">Login</a>
+      <a href="cart.html" style="text-decoration: none; color: #222; font-weight: 600;">Cart</a>
+    </nav>
+  </div>
+
+  <!-- Search bar stays centered -->
+  <div class="search-bar" style="display: flex; justify-content: center; align-items: center; margin-top: 24px;">
+    <input type="text" placeholder="Search products..." style="padding: 10px 18px; border: 1px solid #ccc; border-radius: 24px 0 0 24px; outline: none; font-size: 1rem; width: 260px;">
+    <button style="padding: 10px 22px; border: none; background: #222; color: #fff; border-radius: 0 24px 24px 0; font-size: 1rem; cursor: pointer; font-weight: 600; transition: background 0.2s;">Search</button>
+  </div>
+</header>
+
+  <!-- 📦 Product Section -->
+  <main class="container">
+    <nav class="breadcrumbs">
+      <a href="index.html">Home</a> &gt;
+      <a href="products.html">T-Shirts</a> &gt;
+      <span>Premium T-Shirt Defender</span>
+    </nav>
+
+    <section class="product-detail">
+      <div class="product-images">
+        <!-- changed: give the image an id, empty src -->
+        <img id="productImage" src="" alt="Premium T-Shirt Defender" />
+      </div>
+      <div class="product-info">
+        <h1 class="product-title">Premium T-Shirt Defender</h1>
+        <div class="product-category">T-Shirts</div>
+        <div class="price">৳ 499</div>
+        <p class="description">
+          Experience the perfect blend of comfort and style with our Premium T-Shirt Defender. Made from high-quality cotton fabric, this tee is designed to keep you cool and confident all day long.
+        </p>
+
+        <div class="options">
+          <label for="size-select" class="option-label">Size</label>
+          <select id="size-select" required>
+            <option value="" disabled selected>Select Size</option>
+            <option value="S">Small</option>
+            <option value="M">Medium</option>
+            <option value="L">Large</option>
+            <option value="XL">Extra Large</option>
+          </select>
+        </div>
+
+        <div class="options">
+          <label for="quantity" class="option-label">Quantity</label>
+          <input type="number" id="quantity" min="1" value="1" />
+        </div>
+
+        <button type="button" class="btn-add-cart">Add to Cart</button>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- include your image-export script -->
+  <script>
+  // this is the pic exporting from one page to another script
+document.addEventListener("DOMContentLoaded", function () 
+{
+  const params = new URLSearchParams(window.location.search);
+  const imgSrc = params.get("img");
+
+  if (imgSrc) 
+    {
+    const productImage = document.getElementById("productImage");
+    if (productImage) 
+    {
+      productImage.src = imgSrc;
+    }
+  }
+});
+</script>
+
+<script>
+//const addToCartBtn = document.querySelector('.btn-add-cart');
+//const sizeSelect = document.getElementById('size-select');
+//const quantityInput = document.getElementById('quantity');
+const productImage = document.getElementById('productImage');
+
+addToCartBtn.addEventListener('click', () => {
+  const productName = encodeURIComponent(document.querySelector('.product-title').innerText);
+  const priceText = document.querySelector('.price').innerText;
+  const price = parseFloat(priceText.replace(/[^0-9.]/g, ''));
+  const size = sizeSelect.value;
+  const quantity = parseInt(quantityInput.value);
+  const imageSrc = encodeURIComponent(productImage.src);
+
+  if (!size) {
+    alert('Please select a size!');
+    return;
+  }
+
+  // Redirect to cart.html with query parameters
+  const url = `cart.html?name=${productName}&price=${price}&size=${size}&quantity=${quantity}&image=${imageSrc}`;
+  window.location.href = url;
+});
+</script>
+
+  <!-- sidebar added -->
+  <script src="sidebar.js"></script>
+  <aside id="sidebar" style="
+  position: fixed;
+  top: 0;
+  left: -320px; 
+  width: 320px;
+  height: 100%;
+  background: #f1f2f6;
+  box-shadow: 3px 0 12px rgba(0,0,0,0.1);
+  padding: 0px;
+  transition: left 0.3s ease;
+  z-index: 1200;
+">
+  <h2>Menu</h2>
+  <ul style="list-style:none; padding:0;">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="productsTest.html">Shop</a></li>
+    <li><a href="login.html">Login</a></li>
+    <li><a href="cart.html">Cart</a></li>
+  </ul>
+</aside>
+<!-- sidebar added -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const addToCartBtn = document.querySelector('.btn-add-cart');
+  const sizeSelect = document.getElementById('size-select');
+  const quantityInput = document.getElementById('quantity');
+  const productImage = document.getElementById('productImage');
+
+  addToCartBtn.addEventListener('click', () => {
+    const productName = encodeURIComponent(document.querySelector('.product-title').innerText);
+    const priceText = document.querySelector('.price').innerText;
+    const price = parseFloat(priceText.replace(/[^0-9.]/g, ''));
+    const size = sizeSelect.value;
+    const quantity = parseInt(quantityInput.value);
+    const imageSrc = encodeURIComponent(productImage.src);
+
+    if (!size) {
+      alert('Please select a size!');
+      return;
+    }
+
+    // Redirect to cart.html with query parameters
+    const url = `cart.html?name=${productName}&price=${price}&size=${size}&quantity=${quantity}&image=${imageSrc}`;
+    window.location.href = url;
+  });
+});
+</script>
+
+
+</body>
+</html>

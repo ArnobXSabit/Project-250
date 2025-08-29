@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile - PureWave</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Navbar styles */
+    .navbar {
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 20px 40px;
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #222;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .logo:hover { color: orange; }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #222;
+      font-weight: 600;
+    }
+
+    /* Sidebar */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: -280px; 
+      width: 280px;
+      height: 100%;
+      background: #f1f2f6;
+      box-shadow: 3px 0 12px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: left 0.3s ease;
+      z-index: 1200;
+    }
+    #sidebar ul { list-style:none; padding:0; }
+    #sidebar ul li { margin: 16px 0; }
+    #sidebar ul li a { text-decoration: none; color: #222; font-weight: 600; }
+
+    /* Profile card */
+    .profile-container {
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 8px 32px rgba(34,34,34,0.10);
+      border: 1.5px solid #e3e6ee;
+      width: 360px;
+      margin-top: 120px;
+      text-align: center;
+      padding: 40px 32px 32px 32px;
+    }
+    .profile-container img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(34,34,34,0.1);
+    }
+    .profile-container h2 {
+      margin: 0 0 12px 0;
+      font-weight: 800;
+      font-size: 2rem;
+      color: #222;
+    }
+    .profile-container p {
+      margin: 6px 0;
+      font-size: 1rem;
+      color: #555;
+    }
+    .logout-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #222, #3a91f5);
+    color: #fff;
+    padding: 16px 48px;
+    border-radius: 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 8px 28px rgba(58, 145, 245, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    cursor: pointer;
+    width: fit-content;
+    border: none;
+    outline: none;
+}
+
+.logout-btn:hover,
+.logout-btn:focus,
+.logout-btn:active {
+  background: linear-gradient(135deg, #3a91f5, #222);
+  box-shadow: 0 12px 36px rgba(58, 145, 245, 0.6);
+  transform: scale(1.05);
+  outline: none;
+}
+
+    
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">PureWave</a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shopNow.html">Shop</a>
+        <a href="cart.html">Cart</a>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <h2>Menu</h2>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shopNow.html">Shop</a></li>
+      <li><a href="userprofile.html">Profile</a></li>
+      <li><a href="cart.html">Cart</a></li>
+    </ul>
+  </aside>
+
+  <!-- Profile Card -->
+  <div class="profile-container" id="profileCard">
+    <img src="profile-icon.png" alt="Profile Picture" id="profileImage">
+    <h2 id="profileName">User Name</h2>
+    <p id="profileEmail">user@example.com</p>
+    <p id="profileRole">Customer</p>
+  </div>
+
+  <script>
+    // Fetch user info from localStorage
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if(user && user.name){
+      document.getElementById("profileName").textContent = user.name;
+      document.getElementById("profileEmail").textContent = user.email || "Email not set";
+      document.getElementById("profileRole").textContent = user.role || "Customer";
+
+      // If user has profile image, use it
+      if(user.image){
+        document.getElementById("profileImage").src = user.image;
+      }
+    } else {
+      alert("Please login first!");
+      window.location.href = "login.html";
+    }
+
+    // Logout button
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("user");
+      alert("You have been logged out.");
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
